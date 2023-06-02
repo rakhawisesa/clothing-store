@@ -1,0 +1,14 @@
+.authentication-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px auto;
+    @media screen and (min-width: 768px){
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin: 30px auto;
+    }
+}

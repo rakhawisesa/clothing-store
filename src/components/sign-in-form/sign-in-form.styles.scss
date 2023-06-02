@@ -1,0 +1,19 @@
+.sign-in-container{
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+        margin: 10px 0;
+    }
+
+    @media screen and (min-width: 768px){
+        width: 40%;
+    }
+
+    @media screen and (min-width: 992px){
+        .buttons-container{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
