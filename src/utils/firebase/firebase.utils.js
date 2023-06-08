@@ -4,7 +4,9 @@ import {
     signInWithPopup, 
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
 } from 'firebase/auth';
 import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
 
@@ -30,18 +32,24 @@ googleProvider.setCustomParameters({
 // Authentication
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
-    if (!email || !password) return;
-    return await createUserWithEmailAndPassword(auth, email, password);
-}
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
 
     return await signInWithEmailAndPassword(auth, email,password);
 }
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+    return await createUserWithEmailAndPassword(auth, email, password);
+}
+
+// Sign Out
+export const signOutUser = async () => await signOut(auth);
+
+// Observer Pattern
+export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
 
 
-// Database
+// Database - create user data
 export const db = getFirestore();
 export const createUserDocumentFromAuth = async(userAuth, additionalInformation = {}) => {
     if(!userAuth) return;
@@ -50,6 +58,7 @@ export const createUserDocumentFromAuth = async(userAuth, additionalInformation 
         doc(dbRefference, collectionName, documentName).
         'doc()' digunakan untuk membuat object refference
     */
+   
     const userSnapshot = await getDoc(userDocRef);/*
         'getDoc()' digunakan untuk mengambil data/retrieving data from database.
     */
@@ -75,7 +84,7 @@ export const createUserDocumentFromAuth = async(userAuth, additionalInformation 
                 null.
             */
         }catch(error){
-            console.error('Error creating the user', error.message);
+            alert("Error creating user data");
         }
     }
 

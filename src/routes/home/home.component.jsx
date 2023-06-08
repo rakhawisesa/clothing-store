@@ -1,6 +1,6 @@
 import Directory from "../../components/directory/directory.component";
 
-const App = () => {
+const Home = () => {
 
   const categories = [
     {
@@ -34,4 +34,4 @@ const App = () => {
   return <Directory categories={categories}/>;
 }
 
-export default App;
+export default Home;

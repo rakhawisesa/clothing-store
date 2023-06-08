@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { 
-    createUserDocumentFromAuth, 
-    signInWithGooglePopup,
-    signInAuthUserWithEmailAndPassword
- } from "../../utils/firebase/firebase.utils";
+import { useState} from "react";
 import Button from "../button/button.component"
 import FormInput from "../form-input/form-input.component"
 import './sign-in-form.styles.scss';
+import { 
+    signInWithGooglePopup,
+    signInAuthUserWithEmailAndPassword
+ } from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
     email: '',
@@ -14,19 +13,18 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
-    const [formFields, setFormField] = useState(defaultFormFields);
+    const [formFields, setFormFields] = useState(defaultFormFields);
     const {email, password} = formFields;
 
     const resetFormFields = () => {
-        setFormField(defaultFormFields);
+        setFormFields(defaultFormFields);
     }
 
     const signInWithGoogle = async () => {
         try{
-            const response = await signInWithGooglePopup();
-            await createUserDocumentFromAuth(response.user);
+            await signInWithGooglePopup();
         }catch(error){
-            alert("Sign In with Google cancelled")
+            alert("Sign In with Google Cancelled")
         }
     }
 
@@ -34,8 +32,7 @@ const SignInForm = () => {
         event.preventDefault();
         const [email, password] = event.target;
         try{
-            const response = await signInAuthUserWithEmailAndPassword(email.value, password.value);
-            console.log(response);
+            await signInAuthUserWithEmailAndPassword(email.value, password.value);
             resetFormFields();
         }catch(error){
             switch(error.code){
@@ -53,7 +50,7 @@ const SignInForm = () => {
 
     const handleChange = (event) => {
         const {name, value} = event.target;
-        setFormField({...formFields, [name]: value});
+        setFormFields({...formFields, [name]: value});
     }
 
     return (

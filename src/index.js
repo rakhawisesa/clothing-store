@@ -4,12 +4,32 @@ import {BrowserRouter} from 'react-router-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {UserProvider} from './contexts/user.context';
+import { ProductProvider } from './contexts/products.context';
+import { CartProvider } from './contexts/cart.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+/*
+  "<ProductProvider></ProductProvider>" diberikan didalam "<UserProvider></UserProvider>"
+  agar "<UserProvider></UserProvider>" dapat memberikan value UserContext kepada
+  "<ProductProvider></ProductProvider>", karena terkadang ketersediaan product dapat
+  dipengaruhi oleh geolocation dari user, sehingga value UserContext dibutuhkan oleh
+  "<ProductProvider></ProductProvider>"
+
+  Urutan wrapping sangat berpengaruh pada ketersediaan data, yakni menggunakan "{children}"
+  pada provider masing-masing context.
+*/
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <UserProvider>
+        <ProductProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </ProductProvider>
+      </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

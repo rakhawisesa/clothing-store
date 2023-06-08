@@ -9,7 +9,7 @@ const FormInput = ({label, ...inputProps}) => {
                     If label props exists, then render the label tag
                 */
                 label && (
-                    <label htmlFor="displayName" className={`${inputProps.value.length ? 'shrink' : ''} form-input-label`}>{label}</label>
+                    <label className={`${inputProps.value.length ? 'shrink' : ''} form-input-label`}>{label}</label>
                 )
             }
         </div>
