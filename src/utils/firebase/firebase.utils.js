@@ -8,7 +8,12 @@ import {
     signOut,
     onAuthStateChanged
 } from 'firebase/auth';
-import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
+import {
+    getFirestore, 
+    doc, 
+    getDoc, 
+    setDoc
+} from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,7 +23,7 @@ const firebaseConfig = {
     storageBucket: "crown-clothing-db-2f2a7.appspot.com",
     messagingSenderId: "996279489937",
     appId: "1:996279489937:web:f51c5295aee5419db6b630"
-  };
+};
   
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -35,10 +40,11 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
 
-    return await signInWithEmailAndPassword(auth, email,password);
+    return await signInWithEmailAndPassword(auth, email, password);
 }
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
+    
     return await createUserWithEmailAndPassword(auth, email, password);
 }
 
@@ -56,7 +62,7 @@ export const createUserDocumentFromAuth = async(userAuth, additionalInformation 
 
     const userDocRef = doc(db, 'users', userAuth.uid); /*
         doc(dbRefference, collectionName, documentName).
-        'doc()' digunakan untuk membuat object refference
+        'doc()' digunakan untuk membuat object refference.
     */
    
     const userSnapshot = await getDoc(userDocRef);/*
