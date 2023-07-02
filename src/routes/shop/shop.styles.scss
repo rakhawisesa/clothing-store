@@ -18,3 +18,13 @@
         row-gap: 50px;
     }
 }
+
+.header-products{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .show-all{
+        padding-top: 7px;
+    }
+}

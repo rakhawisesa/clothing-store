@@ -21,6 +21,9 @@ const addCartItem = (cartItems, productToAdd) => {
     return [...cartItems, {...productToAdd, quantity: 1}];
 }
 
+/*
+    Mengurangi jumlah item suatu produk dari cart
+*/
 const removeCartItem = (cartItems, productToRemove) => {
     // Find if cartItems contains productToRemove
     const existingCartItem = cartItems.find((cartItem) => cartItem.id === productToRemove.id);
@@ -42,6 +45,9 @@ const removeCartItem = (cartItems, productToRemove) => {
     )
 }
 
+/*
+    Mengurangi produk dari cart
+*/
 const removeAllFromCartItem = (cartItems, productToRemove) => {
     return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
 }
@@ -57,19 +63,33 @@ export const CartContext = createContext({
     isCartOpen: false,
     setIsCartOpen: () => null,
     cartItems: [],
+    setCartItems: () => null,
     addItemToCart: () => null,
     removeItemInCart: () => null,
     removeAllQuantityFromCart: () => null,
     cartCount: 0,
+    setCartCount: () => null,
     totalPayment: 0,
     setTotalPayment: () => null,
 });
 
 export const CartProvider = ({children}) => {
-    const [isCartOpen, setIsCartOpen] = useState(false);
-    const [cartItems, setCartItems] = useState([]);
-    const [cartCount, setCartCount] = useState(0);
-    const [totalPayment, setTotalPayment] = useState(0);
+    const [isCartOpen, setIsCartOpen] = useState(false); /*
+        Digunakan untuk toggle dropdown
+     */
+    const [cartItems, setCartItems] = useState([]);/*
+        Digunakan untuk melakukan penambahan dan pengurangan
+        items didalam cart dropdown
+    */
+    const [cartCount, setCartCount] = useState(0);/*
+        Digunakan untuk menampilkan counter number didalam 
+        shopping bag
+    */
+    const [totalPayment, setTotalPayment] = useState(0);/*
+        Digunakan untuk menampilkan total keseluruhan payment
+        dengan menghitung seluruh quantity didalam 'cartItems'
+        dan mengkalikannya dengan price didalam 'cartItems'
+    */
 
     const addItemToCart = (productToAdd) => {
         setCartItems(addCartItem(cartItems, productToAdd));
