@@ -11,6 +11,11 @@ export const UserContext = createContext({
 
 export const UserProvider = ({children}) => {
     const [ currentUser, setCurrentUser] = useState(null);
+
+    /*
+        Entitas didalam value adalah entitas yang akan
+        diekspose oleh Provider
+    */
     const value = {currentUser, setCurrentUser};
 
     /*

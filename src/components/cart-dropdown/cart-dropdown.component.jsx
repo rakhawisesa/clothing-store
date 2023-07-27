@@ -1,4 +1,14 @@
-import "./cart-dropdown.styles.scss";
+// Code lama
+// import "./cart-dropdown.styles.scss";
+
+// Code Baru
+import {
+    CartDropdownContainer,
+    EmptyMessage,
+    CartItems
+} from "./cart-dropdown.styles";
+
+
 import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 import { useContext } from "react";
@@ -14,16 +24,17 @@ const CartDropdown = () => {
     }
 
     return (
-        <div className="cart-dropdown-container">
-            <div className="cart-items">
+        <CartDropdownContainer>
+            <CartItems>
                 {
-                    cartItems.map((item) => {
-                        return <CartItem cartItem={item} key={item.id}/>
-                    })
+                    cartItems.length ?
+                        (cartItems.map((item) => {
+                            return <CartItem cartItem={item} key={item.id}/>
+                        })) : (<EmptyMessage>Your Cart is Empty</EmptyMessage>)
                 }
-            </div>
+            </CartItems>
             <Button onClick={goToCheckoutHandler}>CHECKOUT</Button>
-        </div>
+        </CartDropdownContainer>
     )
 }
 

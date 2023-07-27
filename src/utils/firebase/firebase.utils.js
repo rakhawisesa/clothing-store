@@ -19,7 +19,7 @@ import {
     getDocs,
 } from 'firebase/firestore'
 
-// Your web app's Firebase configuration
+/* Your web app's Firebase configuration */
 const firebaseConfig = {
     apiKey: "AIzaSyA9wY15PwwJ_oHFHSP2gpy_BgVQBbG50nQ",
     authDomain: "crown-clothing-db-2f2a7.firebaseapp.com",
@@ -29,39 +29,43 @@ const firebaseConfig = {
     appId: "1:996279489937:web:f51c5295aee5419db6b630"
 };
   
-// Initialize Firebase
+/* Initialize Firebase */
 initializeApp(firebaseConfig);
 
-// Initialize DB
+/* Initialize DB */
 export const db = getFirestore();
 
-// Initialize auth provider
+/* Initialize auth provider */
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
     prompt: "select_account"
 });
 
-// Authentication
+/* Authentication */
 export const auth = getAuth();
+// Authentication - Sign In
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
 
     return await signInWithEmailAndPassword(auth, email, password);
 }
+// Authentication - Sign Up
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
     
     return await createUserWithEmailAndPassword(auth, email, password);
 }
 
-// Sign Out
+/* Sign Out */
 export const signOutUser = async () => await signOut(auth);
 
-// Observer Pattern
+/* Observer Pattern */
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
 
-
+/*
+    Migrates the data from 'shop-data.js' to Firestore
+*/
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
     const collectionRef = collection(db, collectionKey);/*
         Digunakan untuk melakukan generate 'collection' baru, setelah itu
@@ -83,6 +87,9 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     console.log('done');
 }
 
+/*
+    Retrieves data from Firestore at 'categories' collection
+*/
 export const getCategoriesAndDocument = async () => {
     const collectionRef = collection(db, 'categories');/*
         Untuk menentukan target DB
@@ -98,11 +105,10 @@ export const getCategoriesAndDocument = async () => {
     */
    
     const categoryMap = querySnapshot.docs.reduce((iterator, docSnapshot) => {
-        /*
+        const {title, items} = docSnapshot.data();/*
             Destructure Object, gambaran kerangka Object dapat
             dilihat pada 'shop-data.js'
         */
-        const {title, items} = docSnapshot.data();
 
         iterator[title.toLowerCase()] = items;/*
             Code ini akan membuat kerangka object menjadi : 
@@ -124,7 +130,7 @@ export const getCategoriesAndDocument = async () => {
     return categoryMap;
 }
 
-// Database - create user data
+/* Database - create user data */
 export const createUserDocumentFromAuth = async(userAuth, additionalInformation = {}) => {
     if(!userAuth) return;
 
@@ -142,7 +148,7 @@ export const createUserDocumentFromAuth = async(userAuth, additionalInformation 
         // Create & set the document on the database
         const {displayName, email} = userAuth; /*
             'displayName' & 'email' didapatkan dari
-            authentication proses
+            hasil return authentication proses
         */
         const createdAt = new Date();
 

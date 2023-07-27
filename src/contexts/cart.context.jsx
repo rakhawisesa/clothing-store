@@ -1,10 +1,18 @@
 import {createContext, useState, useEffect} from 'react';
 
+/* ======= UTILITY FUNCTION ======== */
+
 /*
     'cartItems' merupakan variable penampung items yang berada pada dropdown
 
     'productToAdd' merupakan variable yang berisi item baru yang akan ditambahkan
-        kedalam 'cartItems'
+    kedalam 'cartItems'
+
+    'addCartItem' digunakan untuk menambahkan suatu item kedalam
+    'cartItems', jika item yang dimaksud sudah ada didalam 'cartItems'
+    maka akan ditambahkan quantitynya, namun jika item yang dimaksud
+    belum tersedia didalam 'cartItems' maka item tersebut akan ditambahkan
+    kedalam 'cartItems' dengan quantity 1
 */
 const addCartItem = (cartItems, productToAdd) => {
     // Find if cartItems contains productToAdd
@@ -33,31 +41,35 @@ const removeCartItem = (cartItems, productToRemove) => {
         return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
     }
 
-    // return 'cartItems' with reduced quantity
+    // return 'cartItems' with reduce quantity
+    return cartItems.map((cartItem) => (cartItem.id === productToRemove.id) ?
+        {...cartItem, quantity: cartItem.quantity - 1} : cartItem
+    )
+
     /*
         Mengapa selalu mereturn array baru?
         Karena berkaitan dengan re-rendering, ketika React mendeteksi ada props baru 
         -- dengan cara mengecek alamat memory dari props, jika alamat memory berbeda
         maka dikatakan props baru --, maka React akan melakukan re-rendering.
     */
-    return cartItems.map((cartItem) => (cartItem.id === productToRemove.id) ?
-        {...cartItem, quantity: cartItem.quantity - 1} : cartItem
-    )
 }
 
 /*
-    Mengurangi produk dari cart
+    Menghilangkan produk dari cart
 */
 const removeAllFromCartItem = (cartItems, productToRemove) => {
     return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
 }
 
 
+
+/*  ========== CONTEXT =========*/
 /*
     Fungsi masing-masing actual context :
     Untuk toggle dropdown : 'isCartOpen' & 'setIsCartOpen'
-    Untuk item pada dropdown : 'cartItems', 'setCartItems', & 'addItemToCart'
-    Untuk menampakkan jumlah item pada CartIcon : 'totalItems' & 'setTotalItem'
+    Untuk item pada dropdown : 'cartItems', 'setCartItems', 'addItemToCart', 'removeItemInCart', & removeAllQuantityFromCart
+    Untuk menampakkan jumlah item pada CartIcon : 'cartCount' & 'setCartCount'
+    Untuk menghitung total payment yang harus dibayarkan : 'totalPayment' & 'setTotalPayment'
 */
 export const CartContext = createContext({
     isCartOpen: false,
@@ -124,6 +136,9 @@ export const CartProvider = ({children}) => {
         )
     }, [cartItems]);
 
+    /*
+        entitas didalam value adalah entitas yang akan diekspose oleh Provider.
+    */
     const value = {
         isCartOpen, 
         setIsCartOpen, 

@@ -61,6 +61,10 @@ export const ProductProvider = ({children}) => {
         getCategoriesMap();
     }, [])
 
+    /*
+        entitas didalam value adalah entitas yang akan diekspose oleh
+        Provider
+    */
     const value = {products};
 
     return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>
